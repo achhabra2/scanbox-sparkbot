@@ -1,5 +1,7 @@
-var env = require('node-env-file');
-env('./.env');
+if(process.env.NODE_ENV != 'production') {
+  var env = require('node-env-file');
+  env('./.env');
+}
 
 process.env.CISCOSPARK_ACCESS_TOKEN = process.env.access_token;
 
