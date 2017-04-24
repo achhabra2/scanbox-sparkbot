@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var express = require('express');
 var router = express.Router();
@@ -89,7 +89,7 @@ router.get('/failure', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    res.send('Hello<br><a href="/auth">Log in with Dropbox</a>');
+    res.send('Hello<br><a href="auth">Log in with Dropbox</a>');
 });
 
 router.get('/webhook', (req, res) => {
@@ -107,16 +107,8 @@ router.post('/webhook', (req, res) => {
 });
 
 var generateCursor = ( person ) => {
-    return new Promise( ( resolve, reject ) => {
-        var dbx = new Dropbox( {accessToken: person.dropbox.access_token} );
-        dbx.filesListFolder({path: ''})
-        .then( (res) => {
-            resolve(res);
-        })
-        .catch( (err) => {
-            reject(err);
-        });
-    });
+    var dbx = new Dropbox( {accessToken: person.dropbox.access_token} );
+    return dbx.filesListFolder({path: ''});
 };
 
 var getDbFileUpdate = ( person ) => {
@@ -140,7 +132,7 @@ var getDbFileUpdate = ( person ) => {
                 .catch((err) =>{
                     console.log('Error Updating Cursor. ');
                     console.error(err);
-                })
+                });
                 if(res.entries.length > 0) {
                     res.entries.forEach( file => {
                         if(file['.tag'] != 'deleted') {
